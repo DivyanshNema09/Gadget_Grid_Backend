@@ -1,0 +1,10 @@
+# Environment variables
+Server/.env
+
+# Dependencies
+node_modules/
+
+# Other environment files
+.env
+.env.*
+!.env.example
