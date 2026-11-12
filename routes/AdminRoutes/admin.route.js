@@ -1,6 +1,6 @@
 const express = require("express")
 const adminRoute = express.Router()
-const productSchema = require("../../validator/product.validate")
+const {productSchema} = require("../../validator/product.validate")
 const validate = require("../../middleware/AuthMiddleWatre/validate")
 const adminMiddleware = require("../../middleware/AuthMiddleWatre/AdminMiddleware/Admin.MiddleWare")
 const {admin , register , login , addProduct , updateProduct , deleteProduct} = require("../../controller/Admin/Admin.controller")

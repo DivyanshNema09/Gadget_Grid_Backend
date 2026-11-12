@@ -1,9 +1,8 @@
 const joi = require("joi")
 
+const productSchema = joi.object({
 
-const productSchema = Joi.object({
-
-    image: Joi.string()
+    image: joi.string()
         .trim()
         .required()
         .messages({
@@ -11,7 +10,7 @@ const productSchema = Joi.object({
             "any.required": "Product image is required"
         }),
 
-    productName: Joi.string()
+    productName: joi.string()
         .trim()
         .min(3)
         .max(100)
@@ -23,7 +22,7 @@ const productSchema = Joi.object({
             "any.required": "Product name is required"
         }),
 
-    brand: Joi.string()
+    brand: joi.string()
         .trim()
         .required()
         .messages({
@@ -31,7 +30,7 @@ const productSchema = Joi.object({
             "any.required": "Brand name is required"
         }),
 
-    category: Joi.string()
+    category: joi.string()
         .trim()
         .required()
         .messages({
@@ -39,7 +38,7 @@ const productSchema = Joi.object({
             "any.required": "Category is required"
         }),
 
-    description: Joi.string()
+    description: joi.string()
         .trim()
         .min(10)
         .required()
@@ -49,7 +48,7 @@ const productSchema = Joi.object({
             "any.required": "Description is required"
         }),
 
-    price: Joi.number()
+    price: joi.number()
         .positive()
         .required()
         .messages({
@@ -58,7 +57,7 @@ const productSchema = Joi.object({
             "any.required": "Price is required"
         }),
 
-    stock: Joi.number()
+    stock: joi.number()
         .integer()
         .min(0)
         .required()
@@ -72,4 +71,4 @@ const productSchema = Joi.object({
 });
 
 
-modules.exports = productSchema
+module.exports = {productSchema}
