@@ -23,7 +23,7 @@ const showCart = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "User Cart",
-            userCart
+            cart
         })
     } catch (error) {
         console.log(error)
