@@ -152,4 +152,7 @@ const removeFavourite = async (req, res) => {
 };
 
 
+// console.log(hey)
+
+
 module.exports = { favourite, addFavourite , removeFavourite }
