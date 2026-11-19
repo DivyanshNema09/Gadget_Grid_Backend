@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const allProduct = async (req, res) => {
     try {
         const isProducts = await product.find({});
-        if (!isProducts) {
+        if (isProducts.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "No Product Found!"
@@ -24,53 +24,67 @@ const allProduct = async (req, res) => {
     }
 
 }
-
 const search = async (req, res) => {
     try {
-        let iteam = req.query.iteam;
-        let category = req.query.category;
-        let brand = req.query.brand;
+        const { item, category, brand } = req.query;
 
-        if (!iteam && !category && !brand) {
-            return res.status(404).json({
+        const filters = [];
+
+        if (item) {
+            filters.push({
+                productName: {
+                    $regex: item,
+                    $options: "i"
+                }
+            });
+        }
+
+        if (category) {
+            filters.push({
+                category: {
+                    $regex: category,
+                    $options: "i"
+                }
+            });
+        }
+
+        if (brand) {
+            filters.push({
+                brand: {
+                    $regex: brand,
+                    $options: "i"
+                }
+            });
+        }
+
+        if (filters.length === 0) {
+            return res.status(400).json({
                 success: false,
-                message: "Please Search For SomeThing"
-            })
+                message: "Please provide a search query"
+            });
         }
 
         const findProducts = await product.find({
-            $or: [
-                { productName: iteam },
-                { brand: brand },
-                { category: category }
-            ]
-        })
+            $or: filters
+        });
 
-        if (!findProducts) {
-            return res.status(404).json({
-                success: false,
-                message: "No Product Found!"
-            })
-        }
-
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
-            message: "Product Found!",
+            message: "Search completed",
             findProducts
-        })
+        });
 
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             success: false,
             message: "Internal Server Error"
-        })
+        });
     }
-}
+};
 
 const iteam = async (req, res) => {
     try {
-        let {id} = req.params
+        let { id } = req.params
 
         if (!mongoose.isValidObjectId(id)) {
             return res.status(400).json({
@@ -101,4 +115,4 @@ const iteam = async (req, res) => {
     }
 }
 
-module.exports = { allProduct, search  , iteam }
+module.exports = { allProduct, search, iteam }

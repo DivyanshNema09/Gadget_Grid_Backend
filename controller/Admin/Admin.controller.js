@@ -162,7 +162,7 @@ const updateProduct = async (req, res) => {
             id,
             updatedData, {
             new: true,
-            newValidator: true
+            newValidators: true
         }
         )
 

@@ -56,18 +56,23 @@ const addFavourite = async (req, res) => {
         );
 
         // Atomically add only if product is not already present
-        const updatedWishlist = await wishlist.findOneAndReplace(
+        const updatedWishlist = await wishlist.findOneAndUpdate(
             {
                 user: userId,
                 "items.product": { $ne: productId }
             },
             {
                 $push: {
-                    items: { product: productId }
+                    items: {
+                        product: productId
+                    }
                 }
             },
             {
-                new: true
+                new: true,
+                upsert: true,
+                runValidators: true,
+                setDefaultsOnInsert: true
             }
         );
 
@@ -111,14 +116,16 @@ const removeFavourite = async (req, res) => {
         }
 
         // Remove product from wishlist
-        const updatedWishlist = await wishlist.findOneAndReplace(
+        const updatedWishlist = await wishlist.findOneAndUpdate(
             {
                 user: userId,
                 "items.product": productId
             },
             {
                 $pull: {
-                    items: { product: productId }
+                    items: {
+                        product: productId
+                    }
                 }
             },
             {
@@ -155,4 +162,4 @@ const removeFavourite = async (req, res) => {
 // console.log(hey)
 
 
-module.exports = { favourite, addFavourite , removeFavourite }
+module.exports = { favourite, addFavourite, removeFavourite }
